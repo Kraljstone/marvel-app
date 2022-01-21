@@ -1,0 +1,25 @@
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+img {
+  width: 100% !important;
+  object-fit: cover;
+  height: 80%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
+}
+
+.card-header h4,
+.card-header svg {
+  margin: 0;
+  font-size: 1.1rem;
+}

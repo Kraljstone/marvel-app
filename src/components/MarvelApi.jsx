@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Input, Col, Row, Card } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import CharacterTable from './CharacterTable';
+import './MarvelApi.css';
 
 const MarvelApi = () => {
   const apiKey = '768d9a571df4b5a599fd30a045417e16';
@@ -10,69 +9,55 @@ const MarvelApi = () => {
 
   const baseUrl = `http://gateway.marvel.com/v1/public/characters?ts=1&apikey=${apiKey}&hash=${MD5Hash}`;
 
-  const [marvel, setMarvel] = useState([]);
+  const [heroes, setHeroes] = useState([]);
   const [searchCharacters, setSearchCharacters] = useState('');
+  const [displayedHeroes, setDisplayedHeroes] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
       const result = await axios(baseUrl);
-      const marvelArr = [];
-      console.log(result);
+      const heroes = [];
 
       for (const key in result.data.data.results) {
-        marvelArr.push({
+        heroes.push({
           id: key,
           name: result.data.data.results[key].name,
           img: `${result.data.data.results[key].thumbnail.path}.${result.data.data.results[key].thumbnail.extension} `,
         });
       }
-      setMarvel(marvelArr);
 
-      const filteredData = marvelArr.filter(hero =>
-        hero.name.toLowerCase().includes(searchCharacters.toLowerCase())
-      );
-
-      setMarvel(filteredData);
+      setHeroes(heroes);
+      setDisplayedHeroes(heroes);
     };
 
     fetch();
-  }, [baseUrl, searchCharacters]);
+  }, [baseUrl]);
 
-  const bookmarkHandler = () => {
-    if (true) {
-      alert(123);
-    } else {
-      console.log(123);
-    }
-  };
+  useEffect(() => {
+    const filteredData = heroes.filter(hero =>
+      hero.name.toLowerCase().includes(searchCharacters.toLowerCase())
+    );
+
+    setDisplayedHeroes(filteredData);
+  }, [heroes, searchCharacters]);
 
   return (
-    <>
-      <div className="search-characters">
-        <Input
+    <div className="container">
+      <div className="search-wrapper">
+        <input
+          className="input"
           placeholder="Search Marvel Characters"
           onChange={e => setSearchCharacters(e.target.value)}
         />
       </div>
-      <Row gutter={[32, 32]} className="marvel-card-container">
-        {marvel.map(marvel => (
-          <Col xs={24} sm={12} lg={6} className="marvel-card" key={marvel.id}>
-            <Card className="card" title={`${marvel.name}`}>
-              <img
-                src={marvel.img}
-                className="marvel-image"
-                alt="Marvel Hero"
-              />
-              <FontAwesomeIcon
-                icon={faBookmark}
-                className="bookmark"
-                onClick={bookmarkHandler}
-              />
-            </Card>
-          </Col>
+      <div className="grid">
+        {displayedHeroes.map(hero => (
+          <div className="col" key={hero.id}>
+            <CharacterTable hero={hero} />
+          </div>
         ))}
-      </Row>
-    </>
+      </div>
+    </div>
   );
 };
 
