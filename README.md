@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+## Decisions made while building this app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+First I made react app with npx create react app because dependencies
+can be easy installed on another PC.
+After that I have created component folder where I've stashed my components and images.
+The first thing I did was HTTP request to the Marvel API so I can fetch the data.
+I have decided to use AXIOS for this project because it has built in error handiling. I use it with newest standard async/await.
+I was thinking if I should filter data directly after response but I decided to put it in array
+because I thought that it would be easy to manage state like that and for me it was.
+Now I needed to filter data while typing in the input so I did, but I made a mistake and I have putted it in the same effect as request and there was a delay after typing so I made another effect for the filter so that is how I fixed it. After that I needed component for all that data with bookmark icon and everything else that you can see in that component.
+The one more dilemma I had was if I should use modules.css or just .css but I decided to go with .css because this is not a big project but If it was I would definitely go with modules
 
 ## Available Scripts
 
@@ -66,5 +74,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 ### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

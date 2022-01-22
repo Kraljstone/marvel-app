@@ -6,6 +6,7 @@ import './CharacterTable.css';
 
 const CharacterTable = props => {
   const [bookmark, setBookmark] = useState(true);
+
   return (
     <>
       <div className="card-wrapper">
