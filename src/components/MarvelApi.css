@@ -58,3 +58,16 @@
     margin: 30px;
   }
 }
+
+.error {
+  text-align: center;
+  margin-top: 20rem;
+  font-size: 2rem;
+  color: red;
+}
+
+.loader {
+  width: 50%;
+  margin: auto;
+  margin-top: 12rem;
+}

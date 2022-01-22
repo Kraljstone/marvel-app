@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+
 import axios from 'axios';
 import CharacterTable from './CharacterTable';
 import './MarvelApi.css';
+import img from './img/download.gif';
 
 const MarvelApi = () => {
   const apiKey = '768d9a571df4b5a599fd30a045417e16';
@@ -12,10 +14,13 @@ const MarvelApi = () => {
   const [heroes, setHeroes] = useState([]);
   const [searchCharacters, setSearchCharacters] = useState('');
   const [displayedHeroes, setDisplayedHeroes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState();
 
   useEffect(() => {
     const fetch = async () => {
       const result = await axios(baseUrl);
+      setIsLoading(false);
       const heroes = [];
 
       for (const key in result.data.data.results) {
@@ -31,6 +36,9 @@ const MarvelApi = () => {
     };
 
     fetch();
+    fetch().catch(error => {
+      setHttpError(error.message);
+    });
   }, [baseUrl]);
 
   useEffect(() => {
@@ -40,6 +48,22 @@ const MarvelApi = () => {
 
     setDisplayedHeroes(filteredData);
   }, [heroes, searchCharacters]);
+
+  if (httpError) {
+    return (
+      <div>
+        <p className="error">{httpError}</p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loader">
+        <img src={img} alt="loader" />
+      </div>
+    );
+  }
 
   return (
     <div className="container">
